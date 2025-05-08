@@ -25,22 +25,12 @@ function show(req, res) {
 
     // cerchiamo il post tramite id
     // post è l'oggetto che andiamo ad iterare all'interno dell'array e mi chiedo se quell'id è lo stesso che che sto andando a ricercare, id è una chiave di posts
-    const post = posts.find(post => post.id === id)
-
-    // facciamo il controllo
-    if (!post) {
-        // res.status(404)
-        return res.status(404).json({
-            error: "not found",
-            message: "post non trovato"
-
-        })
-
-
-    }
-
-
-    res.json(post)
+    const sql = 'SELECT * FROM posts WHERE id = ?';
+    connection.query(sql, [id], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        if (results.length === 0) return res.status(404).json({ error: 'Pizza not found' });
+        res.json(results[0]);
+    });
 }
 
 

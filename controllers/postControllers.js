@@ -142,44 +142,19 @@ function modify(req, res) {
 // destroy: elimina un post esistente
 // usa req.params.id perchè devo sapere quale post eliminare
 function destroy(req, res) {
-
-    // recuperiamo l'id dall'url e trasormiamolo in numero
-    // req e res sono oggetti, mentre id è la chiave dell'oggetto
-    // qualunque valore inviato dall'utente viene considerato una stringa, quindi
-    const id = parseInt(req.params.id)
-
-    // cerchiamo il post tramie id
-    const post = posts.find(post => post.id === id)
-
-    // controllo
-
-    if (!post) {
-
-        res.status(404)
-
-        return res.json({
-            status: 404,
-            error: "not found",
-            message: "post non tovato"
-
-
-        })
-
-
-
-    }
-
-    // rimuoviamo il post dall'array di oggetti
-
-    posts.splice(posts.indexOf(post), 1)
-
-    res.sendStatus(204)
-
-
-
-
-
+    // recuperiamo l'id dall' URL
+    const { id } = req.params;
+    //Eliminiamo la pizza dal menu
+    connection.query('DELETE FROM posts WHERE id = ?', [id], (err) => {
+        if (err) return res.status(500).json({ error: 'Failed to delete pizza' });
+        res.sendStatus(204)
+    });
 }
+
+
+
+
+
 
 
 

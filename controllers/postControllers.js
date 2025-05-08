@@ -4,7 +4,7 @@ const connection = require("../data/db.js")
 // index restituisce l'elenco completo dei post identificati dall'Id
 // non usa req.params perchè restituisce tutti i post, non un post specifico
 function index(req, res) {
-    const sql = 'SELECT * FROM db';
+    const sql = 'SELECT * FROM posts';
     // eseguiamo la query!
     connection.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: 'Database query failed' });
